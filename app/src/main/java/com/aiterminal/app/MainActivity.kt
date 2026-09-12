@@ -6,12 +6,14 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -44,6 +46,16 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         val app = application as AiTerminalApp
+        val startupError = app.startupError
+
+        if (startupError != null) {
+            setContent {
+                AiTerminalTheme {
+                    StartupErrorScreen(startupError)
+                }
+            }
+            return
+        }
 
         val agentViewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
@@ -67,6 +79,32 @@ class MainActivity : ComponentActivity() {
                     settingsViewModel = settingsViewModel
                 )
             }
+        }
+    }
+}
+
+@Composable
+private fun StartupErrorScreen(error: Throwable) {
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        containerColor = TerminalBackground
+    ) { innerPadding ->
+        Column(modifier = Modifier.padding(innerPadding).padding(24.dp)) {
+            Text(
+                text = "AI Terminal could not start",
+                color = TextPrimary,
+                style = MaterialTheme.typography.headlineSmall
+            )
+            Text(
+                text = error.message ?: error::class.java.simpleName,
+                color = TextSecondary,
+                modifier = Modifier.padding(top = 16.dp)
+            )
+            Text(
+                text = "The full stack trace was written to logcat under AiTerminalApp.",
+                color = TextSecondary,
+                modifier = Modifier.padding(top = 16.dp)
+            )
         }
     }
 }
