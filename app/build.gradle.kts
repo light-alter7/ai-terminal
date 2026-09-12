@@ -17,6 +17,8 @@ android {
         versionName = "0.1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled = true
+        multiDexKeepFile = file("multidex-config.txt")
     }
 
     buildTypes {
