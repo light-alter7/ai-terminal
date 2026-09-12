@@ -126,6 +126,8 @@ fun MainAppScreen(
                 tonalElevation = 4.dp
             ) {
                 Screen.items.forEach { screen ->
+                    if (screen == null) return@forEach
+
                     val isSelected = selectedScreen == screen
                     NavigationBarItem(
                         selected = isSelected,
