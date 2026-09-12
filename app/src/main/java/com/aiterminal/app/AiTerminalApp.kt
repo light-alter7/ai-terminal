@@ -1,6 +1,9 @@
 package com.aiterminal.app
 
 import android.app.Application
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Intent
 import android.util.Log
 import com.aiterminal.app.core.security.PermissionGate
 import com.aiterminal.app.core.security.SecureKeyStore
@@ -126,6 +129,24 @@ class AiTerminalApp : Application() {
             )
             reportFile.writeText(report, Charsets.UTF_8)
             Log.e(TAG, "Crash report written to ${reportFile.absolutePath}")
+
+            val clipboard = getSystemService(CLIPBOARD_SERVICE) as? ClipboardManager
+            clipboard?.setPrimaryClip(
+                ClipData.newPlainText("AI Terminal crash log", report)
+            )
+
+            val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                type = "text/plain"
+                putExtra(Intent.EXTRA_SUBJECT, "AI Terminal crash report")
+                putExtra(Intent.EXTRA_TEXT, report)
+            }
+            val chooserIntent = Intent.createChooser(
+                shareIntent,
+                "Share AI Terminal crash log"
+            ).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            startActivity(chooserIntent)
         } catch (reportingError: Exception) {
             Log.e(TAG, "Unable to write crash report", reportingError)
         }
