@@ -1,0 +1,8 @@
+#!/system/bin/sh
+
+# Minimal runtime diagnostic for the built-in Android shell environment.
+printf '%s\n' "AI Terminal shell environment"
+printf 'HOME=%s\n' "${HOME:-}"
+printf 'PREFIX=%s\n' "${PREFIX:-}"
+printf 'TERM=%s\n' "${TERM:-}"
+printf 'shell=%s\n' "${SHELL:-/system/bin/sh}"

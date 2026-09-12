@@ -1,0 +1,40 @@
+{
+  "active_provider": "openai",
+  "providers": {
+    "openai": {
+      "name": "OpenAI",
+      "model": "gpt-4o-mini",
+      "base_url": "https://api.openai.com/v1",
+      "supports_tools": true,
+      "max_tokens": 4096
+    },
+    "claude": {
+      "name": "Anthropic Claude",
+      "model": "claude-3-5-sonnet-latest",
+      "base_url": "https://api.anthropic.com/v1",
+      "supports_tools": true,
+      "max_tokens": 4096
+    },
+    "gemini": {
+      "name": "Google Gemini",
+      "model": "gemini-1.5-flash",
+      "base_url": "https://generativelanguage.googleapis.com/v1beta",
+      "supports_tools": true,
+      "max_tokens": 4096
+    }
+  },
+  "task_routing_rules": [
+    {
+      "task_type": "coding",
+      "preferred_provider": "openai"
+    },
+    {
+      "task_type": "planning",
+      "preferred_provider": "openai"
+    },
+    {
+      "task_type": "quick_query",
+      "preferred_provider": "openai"
+    }
+  ]
+}

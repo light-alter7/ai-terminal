@@ -1,0 +1,22 @@
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+*/build
+*.apk
+*.aab
+
+# Keystores and secrets
+*.jks
+*.keystore
+*.key
+.env
+secure_api_keys.xml
+secrets.properties
