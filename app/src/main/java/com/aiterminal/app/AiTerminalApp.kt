@@ -20,6 +20,9 @@ import com.aiterminal.app.platform.filesystem.WorkspaceManager
 import com.aiterminal.app.platform.terminal.EnvironmentBootstrapper
 import com.aiterminal.app.platform.terminal.PtyProcessRunner
 import com.aiterminal.app.platform.terminal.TerminalManager
+import java.io.File
+import java.io.PrintWriter
+import java.io.StringWriter
 
 class AiTerminalApp : Application() {
 
@@ -45,6 +48,7 @@ class AiTerminalApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        installGlobalCrashHandler()
 
         try {
             // 1. Initialize bootstrapper & environment
@@ -88,6 +92,42 @@ class AiTerminalApp : Application() {
         } catch (error: Throwable) {
             startupError = error
             Log.e(TAG, "AI Terminal failed during application startup", error)
+        }
+    }
+
+    private fun installGlobalCrashHandler() {
+        val previousHandler = Thread.getDefaultUncaughtExceptionHandler()
+        Thread.setDefaultUncaughtExceptionHandler { thread, error ->
+            writeCrashReport(thread, error)
+            previousHandler?.uncaughtException(thread, error)
+        }
+    }
+
+    private fun writeCrashReport(thread: Thread, error: Throwable) {
+        try {
+            val reportDirectory = getExternalFilesDir(null) ?: filesDir
+            if (!reportDirectory.exists()) {
+                reportDirectory.mkdirs()
+            }
+
+            val stackTrace = StringWriter().also { writer ->
+                error.printStackTrace(PrintWriter(writer))
+            }.toString()
+            val report = buildString {
+                appendLine("AI Terminal crash report")
+                appendLine("Thread: ${thread.name}")
+                appendLine("Timestamp: ${System.currentTimeMillis()}")
+                appendLine()
+                append(stackTrace)
+            }
+            val reportFile = File(
+                reportDirectory,
+                "ai-terminal-crash-${System.currentTimeMillis()}.txt"
+            )
+            reportFile.writeText(report, Charsets.UTF_8)
+            Log.e(TAG, "Crash report written to ${reportFile.absolutePath}")
+        } catch (reportingError: Exception) {
+            Log.e(TAG, "Unable to write crash report", reportingError)
         }
     }
 
