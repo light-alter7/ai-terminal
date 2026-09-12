@@ -14,6 +14,13 @@ sealed class Screen(val route: String, val title: String, val icon: ImageVector)
     object Settings : Screen("settings", "Settings", Icons.Default.Settings)
 
     companion object {
-        val items = listOf(Agent, Terminal, Workspace, Settings)
+        // Keep the UI boundary defensive: optional entries must be filtered
+        // before MainActivity dereferences route, title, or icon.
+        val items: List<Screen?> = listOfNotNull(
+            Agent,
+            Terminal,
+            Workspace,
+            Settings
+        )
     }
 }
