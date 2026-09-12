@@ -69,6 +69,9 @@ python, build tools)    diff-first, search)     docs, custom)
   `app/src/main/assets/bootstrap` directory contains only a portable
   environment diagnostic. Add a separately licensed and tested userland
   bundle before enabling Python or package-manager features.
+- GitHub Actions builds the debug APK on pushes to `main`, pull requests, and
+  manual workflow runs. Download it from the workflow run's
+  `ai-terminal-debug-apk` artifact.
 
 ---
 
