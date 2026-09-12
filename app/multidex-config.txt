@@ -1,0 +1,2 @@
+com/aiterminal/app/AiTerminalApp.class
+com/aiterminal/app/MainActivity.class
