@@ -22,6 +22,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
@@ -37,12 +38,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.aiterminal.app.ui.theme.TerminalBackground
-import com.aiterminal.app.ui.theme.TerminalBlue
-import com.aiterminal.app.ui.theme.TerminalBorder
-import com.aiterminal.app.ui.theme.TerminalGreen
-import com.aiterminal.app.ui.theme.TerminalSurface
-import com.aiterminal.app.ui.theme.TerminalSurfaceVariant
+import com.aiterminal.app.ui.theme.Void
+import com.aiterminal.app.ui.theme.ThreadIndigo
+import com.aiterminal.app.ui.theme.HairlineLow
+import com.aiterminal.app.ui.theme.SignalEmerald
+import com.aiterminal.app.ui.theme.SignalEmeraldBg
+import com.aiterminal.app.ui.theme.GraphiteHigh
+import com.aiterminal.app.ui.theme.GlassFillLow
+import com.aiterminal.app.ui.theme.CardShape
+import com.aiterminal.app.ui.theme.GradientText
+import com.aiterminal.app.ui.theme.PillShape
+import com.aiterminal.app.ui.theme.glassSurface
 import com.aiterminal.app.ui.theme.TextMuted
 import com.aiterminal.app.ui.theme.TextPrimary
 import com.aiterminal.app.ui.theme.TextSecondary
@@ -60,16 +66,14 @@ fun SettingsScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(TerminalBackground)
+            .background(Void)
             .verticalScroll(rememberScrollState())
-            .padding(16.dp)
+            .padding(20.dp)
     ) {
         // Header
-        Text(
-            text = "Settings & Providers",
-            fontWeight = FontWeight.Bold,
-            fontSize = 20.sp,
-            color = TextPrimary
+        GradientText(
+            text = "Settings",
+            style = MaterialTheme.typography.headlineSmall
         )
         Text(
             text = "BYOK (Bring Your Own Key) & Runtime Model Routing",
@@ -84,15 +88,15 @@ fun SettingsScreen(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(TerminalSurfaceVariant)
-                    .border(1.dp, TerminalGreen, RoundedCornerShape(8.dp))
+                    .background(GraphiteHigh)
+                    .border(1.dp, SignalEmerald, RoundedCornerShape(8.dp))
                     .padding(12.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
                     imageVector = Icons.Default.CheckCircle,
                     contentDescription = null,
-                    tint = TerminalGreen,
+                    tint = SignalEmerald,
                     modifier = Modifier.width(18.dp)
                 )
                 Spacer(modifier = Modifier.width(8.dp))
@@ -108,15 +112,15 @@ fun SettingsScreen(
         // Active Provider Selection
         Card(
             modifier = Modifier.fillMaxWidth(),
-            colors = CardDefaults.cardColors(containerColor = TerminalSurface),
-            shape = RoundedCornerShape(12.dp)
+            colors = CardDefaults.cardColors(containerColor = GlassFillLow),
+            shape = CardShape
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(
                         imageVector = Icons.Default.Router,
                         contentDescription = null,
-                        tint = TerminalBlue
+                        tint = ThreadIndigo
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
@@ -140,7 +144,7 @@ fun SettingsScreen(
                         RadioButton(
                             selected = isSelected,
                             onClick = { viewModel.selectProvider(providerId) },
-                            colors = RadioButtonDefaults.colors(selectedColor = TerminalBlue)
+                            colors = RadioButtonDefaults.colors(selectedColor = ThreadIndigo)
                         )
                         Spacer(modifier = Modifier.width(6.dp))
                         Column {
@@ -167,15 +171,15 @@ fun SettingsScreen(
         // BYOK API Keys
         Card(
             modifier = Modifier.fillMaxWidth(),
-            colors = CardDefaults.cardColors(containerColor = TerminalSurface),
-            shape = RoundedCornerShape(12.dp)
+            colors = CardDefaults.cardColors(containerColor = GlassFillLow),
+            shape = CardShape
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(
                         imageVector = Icons.Default.Key,
                         contentDescription = null,
-                        tint = TerminalGreen
+                        tint = SignalEmerald
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
@@ -209,13 +213,13 @@ fun SettingsScreen(
                     visualTransformation = PasswordVisualTransformation(),
                     singleLine = true,
                     colors = TextFieldDefaults.colors(
-                        focusedContainerColor = TerminalBackground,
-                        unfocusedContainerColor = TerminalBackground,
+                        focusedContainerColor = Void,
+                        unfocusedContainerColor = Void,
                         focusedTextColor = TextPrimary,
                         unfocusedTextColor = TextPrimary,
-                        cursorColor = TerminalBlue,
-                        focusedIndicatorColor = TerminalBlue,
-                        unfocusedIndicatorColor = TerminalBorder
+                        cursorColor = ThreadIndigo,
+                        focusedIndicatorColor = ThreadIndigo,
+                        unfocusedIndicatorColor = HairlineLow
                     )
                 )
 
@@ -237,13 +241,13 @@ fun SettingsScreen(
                     visualTransformation = PasswordVisualTransformation(),
                     singleLine = true,
                     colors = TextFieldDefaults.colors(
-                        focusedContainerColor = TerminalBackground,
-                        unfocusedContainerColor = TerminalBackground,
+                        focusedContainerColor = Void,
+                        unfocusedContainerColor = Void,
                         focusedTextColor = TextPrimary,
                         unfocusedTextColor = TextPrimary,
-                        cursorColor = TerminalBlue,
-                        focusedIndicatorColor = TerminalBlue,
-                        unfocusedIndicatorColor = TerminalBorder
+                        cursorColor = ThreadIndigo,
+                        focusedIndicatorColor = ThreadIndigo,
+                        unfocusedIndicatorColor = HairlineLow
                     )
                 )
 
@@ -252,11 +256,11 @@ fun SettingsScreen(
                 Button(
                     onClick = { viewModel.saveKeys() },
                     modifier = Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(containerColor = TerminalBlue)
+                    colors = ButtonDefaults.buttonColors(containerColor = ThreadIndigo)
                 ) {
                     Text(
                         text = "Save Keys to Keystore",
-                        color = TerminalBackground,
+                        color = Void,
                         fontWeight = FontWeight.Bold
                     )
                 }

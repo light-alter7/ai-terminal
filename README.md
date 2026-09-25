@@ -1,4 +1,4 @@
-# AI Terminal (📱)
+# LoomCode (📱)
 
 > **An AI-native development environment for your phone.**  
 > The phone is the control center, frontier LLMs provide the intelligence, and the embedded app provides the tools and execution layer.

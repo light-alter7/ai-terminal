@@ -19,11 +19,12 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.aiterminal.app.platform.filesystem.WorkspaceEntry
-import com.aiterminal.app.ui.theme.TerminalAmber
-import com.aiterminal.app.ui.theme.TerminalBlue
-import com.aiterminal.app.ui.theme.TerminalSurface
+import com.aiterminal.app.ui.theme.SignalAmber
+import com.aiterminal.app.ui.theme.ThreadCyan
 import com.aiterminal.app.ui.theme.TextMuted
 import com.aiterminal.app.ui.theme.TextPrimary
+import com.aiterminal.app.ui.theme.CardShapeSmall
+import com.aiterminal.app.ui.theme.glassSurface
 
 @Composable
 fun FileTreeItem(
@@ -34,14 +35,16 @@ fun FileTreeItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
+            .padding(horizontal = 14.dp, vertical = 4.dp)
+            .glassSurface(shape = CardShapeSmall)
             .clickable(onClick = onClick)
-            .padding(horizontal = 12.dp, vertical = 8.dp),
+            .padding(horizontal = 12.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
             imageVector = if (entry.isDirectory) Icons.Default.Folder else Icons.Default.Description,
             contentDescription = null,
-            tint = if (entry.isDirectory) TerminalAmber else TerminalBlue,
+            tint = if (entry.isDirectory) SignalAmber else ThreadCyan,
             modifier = Modifier.width(20.dp)
         )
 

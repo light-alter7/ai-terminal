@@ -2,21 +2,55 @@ package com.aiterminal.app.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val TerminalBackground = Color(0xFF0D1117)
-val TerminalSurface = Color(0xFF161B22)
-val TerminalSurfaceVariant = Color(0xFF21262D)
-val TerminalBorder = Color(0xFF30363D)
+// ---------------------------------------------------------------------------
+// LoomCode design tokens
+// A deep, near-black "void" base with a woven indigo -> violet -> cyan
+// accent thread. Named after the product: threads of code, loomed together.
+// ---------------------------------------------------------------------------
 
-val TerminalGreen = Color(0xFF3FB950)
-val TerminalGreenBg = Color(0xFF13231B)
+// Base surfaces (void / graphite scale)
+val Void = Color(0xFF07070B)
+val VoidElevated = Color(0xFF0C0D14)
+val Graphite = Color(0xFF12131C)
+val GraphiteHigh = Color(0xFF191B27)
+val HairlineLow = Color(0x14FFFFFF)   // 8% white — subtle glass border
+val HairlineHigh = Color(0x26FFFFFF)  // 15% white — focused glass border
+val GlassFillLow = Color(0x08FFFFFF)  // 3% white glass fill
+val GlassFillHigh = Color(0x12FFFFFF) // 7% white glass fill
 
-val TerminalRed = Color(0xFFF85149)
-val TerminalRedBg = Color(0xFF2B1619)
+// Accent thread — the LoomCode signature gradient
+val ThreadIndigo = Color(0xFF6366F1)
+val ThreadViolet = Color(0xFF8B5CF6)
+val ThreadCyan = Color(0xFF22D3EE)
+val ThreadIndigoDim = Color(0xFF3730A3)
 
-val TerminalAmber = Color(0xFFD29922)
-val TerminalBlue = Color(0xFF58A6FF)
-val TerminalPurple = Color(0xFFBC8CFF)
+// Semantic accents
+val SignalEmerald = Color(0xFF34D399)
+val SignalEmeraldBg = Color(0x1A34D399)
+val SignalAmber = Color(0xFFFBBF24)
+val SignalAmberBg = Color(0x1AFBBF24)
+val SignalRose = Color(0xFFFB7185)
+val SignalRoseBg = Color(0x1AFB7185)
 
-val TextPrimary = Color(0xFFE6EDF3)
-val TextSecondary = Color(0xFF8B949E)
-val TextMuted = Color(0xFF484F58)
+// Text
+val TextPrimary = Color(0xFFF4F5F7)
+val TextSecondary = Color(0xFFA1A3B0)
+val TextMuted = Color(0xFF5C5E6C)
+
+// ---- Legacy aliases kept so existing references keep compiling ----
+// (Screens are being migrated to the tokens above; these map the old
+// "Terminal*" names onto the new LoomCode palette.)
+val TerminalBackground = Void
+val TerminalSurface = Graphite
+val TerminalSurfaceVariant = GraphiteHigh
+val TerminalBorder = HairlineLow
+
+val TerminalGreen = SignalEmerald
+val TerminalGreenBg = SignalEmeraldBg
+
+val TerminalRed = SignalRose
+val TerminalRedBg = SignalRoseBg
+
+val TerminalAmber = SignalAmber
+val TerminalBlue = ThreadIndigo
+val TerminalPurple = ThreadViolet

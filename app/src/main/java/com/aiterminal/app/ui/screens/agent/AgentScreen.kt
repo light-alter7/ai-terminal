@@ -1,7 +1,6 @@
 package com.aiterminal.app.ui.screens.agent
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,7 +18,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.DeleteSweep
@@ -29,6 +27,7 @@ import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
@@ -39,24 +38,30 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.aiterminal.app.domain.agent.AgentState
 import com.aiterminal.app.domain.agent.PendingConfirmation
 import com.aiterminal.app.ui.screens.agent.components.CommandConfirmationCard
 import com.aiterminal.app.ui.screens.agent.components.DiffConfirmationCard
 import com.aiterminal.app.ui.screens.agent.components.MessageBubble
-import com.aiterminal.app.ui.theme.TerminalBackground
-import com.aiterminal.app.ui.theme.TerminalBlue
-import com.aiterminal.app.ui.theme.TerminalBorder
-import com.aiterminal.app.ui.theme.TerminalGreen
-import com.aiterminal.app.ui.theme.TerminalSurface
-import com.aiterminal.app.ui.theme.TerminalSurfaceVariant
+import com.aiterminal.app.ui.theme.CardShapeSmall
+import com.aiterminal.app.ui.theme.GlassFillLow
+import com.aiterminal.app.ui.theme.GraphiteHigh
+import com.aiterminal.app.ui.theme.GradientText
+import com.aiterminal.app.ui.theme.HairlineLow
+import com.aiterminal.app.ui.theme.LoomGradients
+import com.aiterminal.app.ui.theme.PillShape
+import com.aiterminal.app.ui.theme.SignalAmber
+import com.aiterminal.app.ui.theme.SignalEmerald
+import com.aiterminal.app.ui.theme.SignalRose
 import com.aiterminal.app.ui.theme.TextPrimary
 import com.aiterminal.app.ui.theme.TextSecondary
+import com.aiterminal.app.ui.theme.ThreadCyan
+import com.aiterminal.app.ui.theme.ThreadIndigo
+import com.aiterminal.app.ui.theme.Void
+import com.aiterminal.app.ui.theme.glassPadding
+import com.aiterminal.app.ui.theme.glassSurface
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -78,47 +83,50 @@ fun AgentScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(TerminalBackground)
+            .background(Brush.verticalGradient(listOf(Void, Void)))
     ) {
         // Header
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(TerminalSurface)
-                .border(width = 1.dp, color = TerminalBorder)
-                .padding(horizontal = 16.dp, vertical = 12.dp),
+                .background(Void)
+                .padding(horizontal = 20.dp, vertical = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(
                     modifier = Modifier
-                        .size(8.dp)
+                        .size(9.dp)
                         .clip(CircleShape)
                         .background(
                             when (agentState) {
-                                is AgentState.Idle -> TerminalGreen
-                                is AgentState.Thinking -> TerminalBlue
-                                is AgentState.ExecutingTool -> TerminalBlue
-                                is AgentState.AwaitingConfirmation -> Color(0xFFD29922)
-                                is AgentState.Error -> Color(0xFFF85149)
+                                is AgentState.Idle -> SignalEmerald
+                                is AgentState.Thinking -> ThreadIndigo
+                                is AgentState.ExecutingTool -> ThreadCyan
+                                is AgentState.AwaitingConfirmation -> SignalAmber
+                                is AgentState.Error -> SignalRose
                             }
                         )
                 )
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(
-                    text = "AI Terminal Agent",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp,
-                    color = TextPrimary
+                Spacer(modifier = Modifier.width(10.dp))
+                GradientText(
+                    text = "LoomCode",
+                    style = MaterialTheme.typography.titleLarge
                 )
             }
 
-            IconButton(onClick = { viewModel.clearChat() }) {
+            IconButton(
+                onClick = { viewModel.clearChat() },
+                modifier = Modifier
+                    .size(38.dp)
+                    .glassSurface(shape = CircleShape)
+            ) {
                 Icon(
                     imageVector = Icons.Default.DeleteSweep,
                     contentDescription = "Clear Chat",
-                    tint = TextSecondary
+                    tint = TextSecondary,
+                    modifier = Modifier.size(18.dp)
                 )
             }
         }
@@ -129,27 +137,32 @@ fun AgentScreen(
             modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth()
-                .padding(horizontal = 12.dp, vertical = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+                .padding(horizontal = 14.dp, vertical = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             if (messages.isEmpty()) {
                 item {
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 40.dp),
+                            .padding(vertical = 56.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text(
-                            text = "AI Terminal",
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 20.sp,
-                            color = TextPrimary
+                        Box(
+                            modifier = Modifier
+                                .size(56.dp)
+                                .clip(CircleShape)
+                                .background(LoomGradients.Thread)
+                        )
+                        Spacer(modifier = Modifier.height(18.dp))
+                        GradientText(
+                            text = "LoomCode",
+                            style = MaterialTheme.typography.headlineSmall
                         )
                         Spacer(modifier = Modifier.height(6.dp))
                         Text(
-                            text = "Mobile AI-native development environment",
-                            fontSize = 13.sp,
+                            text = "Your AI-native development environment",
+                            style = MaterialTheme.typography.bodyMedium,
                             color = TextSecondary
                         )
                     }
@@ -199,53 +212,55 @@ fun AgentScreen(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 8.dp),
+                            .glassSurface(shape = PillShape)
+                            .glassPadding(com.aiterminal.app.ui.theme.GlassPadding(horizontal = 14.dp, vertical = 10.dp)),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         CircularProgressIndicator(
-                            modifier = Modifier.size(16.dp),
-                            color = TerminalBlue,
+                            modifier = Modifier.size(14.dp),
+                            color = ThreadIndigo,
                             strokeWidth = 2.dp
                         )
-                        Spacer(modifier = Modifier.width(8.dp))
+                        Spacer(modifier = Modifier.width(10.dp))
                         val statusText = when (val state = agentState) {
                             is AgentState.ExecutingTool -> "Executing tool: ${state.toolName}..."
                             else -> "Reasoning & planning next steps..."
                         }
                         Text(
                             text = statusText,
-                            fontSize = 12.sp,
-                            color = TextSecondary,
-                            fontFamily = FontFamily.Monospace
+                            style = MaterialTheme.typography.bodySmall,
+                            color = TextSecondary
                         )
                     }
                 }
             }
         }
 
-        // Quick Suggestion Chips (V0.1 Acceptance test scenarios)
+        // Quick Suggestion Chips
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .horizontalScroll(rememberScrollState())
-                .padding(horizontal = 12.dp, vertical = 4.dp),
+                .padding(horizontal = 14.dp, vertical = 6.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             FilterChip(
                 selected = false,
                 onClick = { viewModel.onInputChanged("List the files in my project and show me main.py") },
-                label = { Text("List files & show main.py", fontSize = 12.sp) },
+                label = { Text("List files & show main.py", style = MaterialTheme.typography.labelLarge) },
+                shape = PillShape,
                 colors = FilterChipDefaults.filterChipColors(
-                    containerColor = TerminalSurfaceVariant,
+                    containerColor = GraphiteHigh,
                     labelColor = TextPrimary
                 )
             )
             FilterChip(
                 selected = false,
                 onClick = { viewModel.onInputChanged("Create a hello-world Python script and run it") },
-                label = { Text("Create hello-world Python & run", fontSize = 12.sp) },
+                label = { Text("Create hello-world Python & run", style = MaterialTheme.typography.labelLarge) },
+                shape = PillShape,
                 colors = FilterChipDefaults.filterChipColors(
-                    containerColor = TerminalSurfaceVariant,
+                    containerColor = GraphiteHigh,
                     labelColor = TextPrimary
                 )
             )
@@ -255,42 +270,52 @@ fun AgentScreen(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(TerminalSurface)
-                .border(1.dp, TerminalBorder)
-                .padding(horizontal = 8.dp, vertical = 6.dp),
+                .padding(horizontal = 14.dp, vertical = 10.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             OutlinedTextField(
                 value = promptInput,
                 onValueChange = { viewModel.onInputChanged(it) },
-                placeholder = { Text("Ask the agent...", fontSize = 14.sp, color = TextSecondary) },
+                placeholder = { Text("Ask LoomCode...", style = MaterialTheme.typography.bodyMedium) },
                 modifier = Modifier
                     .weight(1f)
                     .height(52.dp),
                 colors = TextFieldDefaults.colors(
-                    focusedContainerColor = TerminalBackground,
-                    unfocusedContainerColor = TerminalBackground,
+                    focusedContainerColor = GlassFillLow,
+                    unfocusedContainerColor = GlassFillLow,
                     focusedTextColor = TextPrimary,
                     unfocusedTextColor = TextPrimary,
-                    cursorColor = TerminalBlue,
-                    focusedIndicatorColor = TerminalBlue,
-                    unfocusedIndicatorColor = TerminalBorder
+                    cursorColor = ThreadIndigo,
+                    focusedIndicatorColor = ThreadIndigo,
+                    unfocusedIndicatorColor = HairlineLow
                 ),
-                shape = RoundedCornerShape(24.dp),
+                shape = PillShape,
                 singleLine = true
             )
 
-            Spacer(modifier = Modifier.width(6.dp))
+            Spacer(modifier = Modifier.width(8.dp))
 
-            IconButton(
-                onClick = { viewModel.submitPrompt() },
-                enabled = promptInput.isNotBlank() && agentState !is AgentState.Thinking
+            Box(
+                modifier = Modifier
+                    .size(48.dp)
+                    .clip(CircleShape)
+                    .background(
+                        if (promptInput.isNotBlank()) LoomGradients.Thread
+                        else Brush.linearGradient(listOf(GraphiteHigh, GraphiteHigh))
+                    ),
+                contentAlignment = Alignment.Center
             ) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.Send,
-                    contentDescription = "Send",
-                    tint = if (promptInput.isNotBlank()) TerminalBlue else TextSecondary
-                )
+                IconButton(
+                    onClick = { viewModel.submitPrompt() },
+                    enabled = promptInput.isNotBlank() && agentState !is AgentState.Thinking
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.Send,
+                        contentDescription = "Send",
+                        tint = if (promptInput.isNotBlank()) TextPrimary else TextSecondary,
+                        modifier = Modifier.size(20.dp)
+                    )
+                }
             }
         }
     }

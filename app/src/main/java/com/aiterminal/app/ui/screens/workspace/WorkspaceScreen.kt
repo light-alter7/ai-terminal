@@ -35,9 +35,10 @@ import com.aiterminal.app.platform.filesystem.WorkspaceEntry
 import com.aiterminal.app.platform.filesystem.WorkspaceManager
 import com.aiterminal.app.ui.screens.workspace.components.FilePreviewDialog
 import com.aiterminal.app.ui.screens.workspace.components.FileTreeItem
-import com.aiterminal.app.ui.theme.TerminalBackground
-import com.aiterminal.app.ui.theme.TerminalBorder
-import com.aiterminal.app.ui.theme.TerminalSurface
+import com.aiterminal.app.ui.theme.Void
+import com.aiterminal.app.ui.theme.GradientText
+import com.aiterminal.app.ui.theme.CardShapeSmall
+import androidx.compose.material3.MaterialTheme
 import com.aiterminal.app.ui.theme.TextPrimary
 import com.aiterminal.app.ui.theme.TextSecondary
 
@@ -63,24 +64,20 @@ fun WorkspaceScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(TerminalBackground)
+            .background(Void)
     ) {
         // Header
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(TerminalSurface)
-                .border(1.dp, TerminalBorder)
-                .padding(horizontal = 16.dp, vertical = 10.dp),
+                .padding(horizontal = 20.dp, vertical = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Column {
-                Text(
-                    text = "Project Workspace",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp,
-                    color = TextPrimary
+                GradientText(
+                    text = "Workspace",
+                    style = MaterialTheme.typography.titleLarge
                 )
                 Text(
                     text = "${entries.size} items",
